@@ -1,6 +1,8 @@
-#!/usr/bin/env bash
-
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+if [ "$ZSH_NAME" != "" ]; then
+    SCRIPT_DIR=${0:a:h}
+else
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+fi
 
 function build_file_list {
     local paths=()
@@ -32,7 +34,12 @@ function reset_leftover_env_vars {
     local counter=$1
     while true ; do
         local envvar=CINFILE$counter
-        local value=(${!envvar})
+        local value=""
+        if [ "$ZSH_NAME" != "" ]; then
+            value=${(P)envvar}
+        else
+            value=${!envvar}
+        fi
         if [[ "$value" == "" ]] ; then
             break
         fi
