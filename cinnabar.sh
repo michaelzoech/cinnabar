@@ -55,7 +55,7 @@ function do_status {
     local counter=0
     local path
     echo -e "$print_output"
-    for path in $(echo $paths | tr "|" " ") ; do
+    for path in ${paths//|/ } ; do
         counter=$((counter+1))
         export CINFILE$counter="$path"
     done
