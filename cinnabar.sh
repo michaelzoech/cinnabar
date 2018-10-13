@@ -73,6 +73,10 @@ function do_add {
     do_cmd "hg add" "$@"
 }
 
+function do_amend {
+    do_cmd "hg commit --amend" "$@"
+}
+
 function do_commit {
     do_cmd "hg commit" "$@"
 }
@@ -93,6 +97,7 @@ function do_rm {
     do_cmd "rm" "$@"
 }
 
+alias hca="do_amend"
 alias hcm="hg commit -m"
 alias hc="do_commit"
 alias hd="do_diff"
