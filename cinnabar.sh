@@ -54,12 +54,16 @@ function do_status {
     local print_output=$(echo "$status_output" | head -n -1)
     local counter=0
     local path
+    if [ $shell = "zsh" ] && [ -z $zsh_shwordsplit ]; then setopt shwordsplit; fi
+    IFS='|'
     echo -e "$print_output"
-    for path in ${paths//|/ } ; do
+    for path in $paths ; do
         counter=$((counter+1))
         export CINFILE$counter="$path"
     done
+    unset IFS
     reset_leftover_env_vars $((counter+1))
+    if [ $shell = "zsh" ] && [ -z $zsh_shwordsplit ]; then unsetopt shwordsplit; fi
 }
 
 function do_cmd {
