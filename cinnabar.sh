@@ -1,7 +1,7 @@
-if [ "$ZSH_NAME" != "" ]; then
-    SCRIPT_DIR=${0:a:h}
+if [ $shell = "zsh" ]; then
+    CINNABAR_DIR=${0:a:h}
 else
-    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+    CINNABAR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 fi
 
 function build_file_list {
@@ -49,7 +49,7 @@ function reset_leftover_env_vars {
 }
 
 function do_status {
-    local status_output=$(python3 $SCRIPT_DIR/cinnabar.py status)
+    local status_output=$(python3 $CINNABAR_DIR/cinnabar.py status)
     local paths="${status_output##*$'\n'}"
     local print_output=$(echo "$status_output" | head -n -1)
     local counter=0
