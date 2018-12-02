@@ -5,7 +5,7 @@ else
 fi
 
 # Evaluates the environment variable with the name in parameter 1
-function eval_variable {
+function cin_eval_variable {
     local envvar=$1
     local value
     if [ "$ZSH_NAME" != "" ]; then
@@ -16,7 +16,7 @@ function eval_variable {
     echo "$value"
 }
 
-function build_file_list {
+function cin_build_file_list {
     local paths=()
     local range_regex='^([0-9]+)-([0-9]+)$'
     local number_regex='^[0-9]+$'
@@ -27,13 +27,13 @@ function build_file_list {
             local end=${BASH_REMATCH[2]}
             while [ $start -le $end ] ; do
                 local envvar=CINFILE$start
-                local path=$(eval_variable "$envvar")
+                local path=$(cin_eval_variable "$envvar")
                 paths+=($path)
                 start=$((start+1))
             done
         elif [[ $arg =~ $number_regex ]] ; then
             local envvar=CINFILE$arg
-            local path=$(eval_variable $envvar)
+            local path=$(cin_eval_variable $envvar)
             paths+=($path)
         else
             paths+=($arg)
@@ -44,11 +44,11 @@ function build_file_list {
 
 # Unsets the CINFILE$number environment variables, starting with the
 # number given in parameter 1.
-function reset_leftover_env_vars {
+function cin_reset_leftover_env_vars {
     local counter=$1
     while true ; do
         local envvar=CINFILE$counter
-        local value=$(eval_variable "$envvar")
+        local value=$(cin_eval_variable "$envvar")
         if [[ "$value" == "" ]] ; then
             break
         fi
@@ -59,7 +59,7 @@ function reset_leftover_env_vars {
 
 # Prints the status of files in th repository and creates the
 # CINFILE$number environment variables to refer to those files.
-function do_status {
+function cin_do_status {
     local status_output=$(python3 $CINNABAR_DIR/cinnabar.py status)
     local paths="${status_output##*$'\n'}"
     local print_output=$(echo "$status_output" | head -n -1)
@@ -73,53 +73,53 @@ function do_status {
         export CINFILE$counter="$path"
     done
     unset IFS
-    reset_leftover_env_vars $((counter+1))
+    cin_reset_leftover_env_vars $((counter+1))
     if [ $shell = "zsh" ] && [ -z $zsh_shwordsplit ]; then unsetopt shwordsplit; fi
 }
 
-function do_cmd {
+function cin_do_cmd {
     local cmd=$1
     shift
-    local paths=$(build_file_list "$@")
+    local paths=$(cin_build_file_list "$@")
     $(echo "command $cmd ${paths[*]}")
 }
 
-function do_add {
-    do_cmd "hg add" "$@"
+function cin_do_add {
+    cin_do_cmd "hg add" "$@"
 }
 
-function do_amend {
-    do_cmd "hg commit --amend" "$@"
+function cin_do_amend {
+    cin_do_cmd "hg commit --amend" "$@"
 }
 
-function do_commit {
-    do_cmd "hg commit" "$@"
+function cin_do_commit {
+    cin_do_cmd "hg commit" "$@"
 }
 
-function do_diff {
-    do_cmd "hg diff" "$@"
+function cin_do_diff {
+    cin_do_cmd "hg diff" "$@"
 }
 
-function do_remove {
-    do_cmd "hg remove" "$@"
+function cin_do_remove {
+    cin_do_cmd "hg remove" "$@"
 }
 
-function do_revert {
-    do_cmd "hg revert" "$@"
+function cin_do_revert {
+    cin_do_cmd "hg revert" "$@"
 }
 
-function do_rm {
-    do_cmd "rm" "$@"
+function cin_do_rm {
+    cin_do_cmd "rm" "$@"
 }
 
-alias hca="do_amend"
+alias hca="cin_do_amend"
 alias hcm="hg commit -m"
-alias hc="do_commit"
-alias hd="do_diff"
-alias ha="do_add"
+alias hc="cin_do_commit"
+alias hd="cin_do_diff"
+alias ha="cin_do_add"
 alias hl="hg log"
 alias hll="hg ll"
-alias hrm="do_remove"
-alias hre="do_revert"
-alias hs="do_status"
-alias rm="do_rm"
+alias hrm="cin_do_remove"
+alias hre="cin_do_revert"
+alias hs="cin_do_status"
+alias rm="cin_do_rm"
