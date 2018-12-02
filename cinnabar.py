@@ -35,16 +35,15 @@ colors = {
 def hg_status():
     process = subprocess.run(
         ["hg", "--color", "never", "status"], check=True, stdout=subprocess.PIPE)
-    s = process.stdout.decode()
+    lines = process.stdout.decode().split("\n")
     paths = []
-    lines = s.split("\n")
     counter = 0
     for line in lines:
-        line = line.strip()
+        line = line.rstrip()
         if line is "":
             continue
         counter += 1
-        path = line[1:].strip()
+        path = line[2:].strip()
         mod = line[:1]
         paths.append(path)
         if os.environ.get('COLOR') is "0":
