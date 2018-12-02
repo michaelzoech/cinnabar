@@ -17,18 +17,18 @@ light_red_color = '\033[91m'
 light_yellow_color = '\033[93m'
 
 reset_color = '\033[0m'
-bold_color = ''  # '\033\e[1m'
-underline_color = ''  # '\033\e[4m'
+bold_color = '\033[1m'
+underline_color = '\033[4m'
 
 colors = {
-    'M': blue_color,
+    'M': blue_color + bold_color,
     'A': green_color,
-    'R': red_color,
-    'C': blue_color,
+    'R': red_color + bold_color,
+    'C': '',
     '!': light_yellow_color + bold_color + underline_color,
     '?': light_magenta_color + bold_color + underline_color,
     'I': light_yellow_color + bold_color,
-    ' ': light_yellow_color + bold_color,
+    ' ': '',
 }
 
 
