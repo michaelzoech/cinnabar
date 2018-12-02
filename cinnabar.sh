@@ -4,6 +4,18 @@ else
     CINNABAR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 fi
 
+# Evaluates the environment variable with the name in parameter 1
+function eval_variable {
+    local envvar=$1
+    local value
+    if [ "$ZSH_NAME" != "" ]; then
+        value=${(P)envvar}
+    else
+        value=${!envvar}
+    fi
+    echo "$value"
+}
+
 function build_file_list {
     local paths=()
     local range_regex='^([0-9]+)-([0-9]+)$'
@@ -15,13 +27,13 @@ function build_file_list {
             local end=${BASH_REMATCH[2]}
             while [ $start -le $end ] ; do
                 local envvar=CINFILE$start
-                local path=(${!envvar})
+                local path=$(eval_variable "$envvar")
                 paths+=($path)
                 start=$((start+1))
             done
         elif [[ $arg =~ $number_regex ]] ; then
             local envvar=CINFILE$arg
-            local path=(${!envvar})
+            local path=$(eval_variable $envvar)
             paths+=($path)
         else
             paths+=($arg)
@@ -30,16 +42,13 @@ function build_file_list {
     echo "${paths[*]}"
 }
 
+# Unsets the CINFILE$number environment variables, starting with the
+# number given in parameter 1.
 function reset_leftover_env_vars {
     local counter=$1
     while true ; do
         local envvar=CINFILE$counter
-        local value=""
-        if [ "$ZSH_NAME" != "" ]; then
-            value=${(P)envvar}
-        else
-            value=${!envvar}
-        fi
+        local value=$(eval_variable "$envvar")
         if [[ "$value" == "" ]] ; then
             break
         fi
@@ -48,6 +57,8 @@ function reset_leftover_env_vars {
     done
 }
 
+# Prints the status of files in th repository and creates the
+# CINFILE$number environment variables to refer to those files.
 function do_status {
     local status_output=$(python3 $CINNABAR_DIR/cinnabar.py status)
     local paths="${status_output##*$'\n'}"
