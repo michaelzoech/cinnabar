@@ -38,6 +38,7 @@ def hg_status():
     lines = process.stdout.decode().split("\n")
     paths = []
     counter = 0
+    working_dir = os.getcwd()
     for line in lines:
         line = line.rstrip()
         if line is "":
@@ -45,7 +46,8 @@ def hg_status():
         counter += 1
         path = line[2:].strip()
         mod = line[:1]
-        paths.append(path)
+        absolute_path = "{}/{}".format(working_dir, path)
+        paths.append(absolute_path)
         if os.environ.get('COLOR') is "0":
             print("{} [{}] {}".format(mod, counter, path))
         else:
