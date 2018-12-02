@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Parses the output of 'hg status', writes new output with file numbering
+# and appends all paths in one line for cinnabar.sh to use for creating
+# the environment numbers.
 import os
 import subprocess
 import sys
