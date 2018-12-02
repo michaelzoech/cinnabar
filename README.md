@@ -12,16 +12,6 @@ Cinnabar provides the following features:
 1. Clone this repository
 2. Source `cinnabar.sh` from your `.bashrc` or `.zshrc` file.
 
-## Limitations
-
-Note that this is still in early development.
-A lot of things aren't handled correctly:
-
-* Unsafe evaluations
-* Paths with whitespaces or other special characters
-* Number expansions after cd-ing to a different directory
-* ...
-
 ## Usage
 
 Whenever you view your Mercurial repo status, each path gets assigned to an environment variable.
