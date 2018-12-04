@@ -1,4 +1,4 @@
-if [ $shell = "zsh" ]; then
+if [ "$shell" = "zsh" ]; then
     CINNABAR_DIR=${0:a:h}
 else
     CINNABAR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
@@ -65,7 +65,7 @@ function cin_do_status {
     local print_output=$(echo "$status_output" | head -n -1)
     local counter=0
     local path
-    if [ $shell = "zsh" ] && [ -z $zsh_shwordsplit ]; then setopt shwordsplit; fi
+    if [ "$shell" = "zsh" ] && [ -z $zsh_shwordsplit ]; then setopt shwordsplit; fi
     IFS='|'
     echo -e "$print_output"
     for path in $paths ; do
@@ -74,7 +74,7 @@ function cin_do_status {
     done
     unset IFS
     cin_reset_leftover_env_vars $((counter+1))
-    if [ $shell = "zsh" ] && [ -z $zsh_shwordsplit ]; then unsetopt shwordsplit; fi
+    if [ "$shell" = "zsh" ] && [ -z $zsh_shwordsplit ]; then unsetopt shwordsplit; fi
 }
 
 function cin_do_cmd {
