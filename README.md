@@ -22,7 +22,7 @@ The numbers can be used with shortcuts such as `ha` (`hg add`).
 Only the number has to be specified instead of typing the full file path.
 Number ranges can be used to reference a range of files.
 
-The following shortcuts support numbered files and numbered ranges:
+The following aliases support numbered files and numbered ranges:
 
 * `ha`: `hg add`
 * `hc`: `hg commit`
@@ -31,6 +31,7 @@ The following shortcuts support numbered files and numbered ranges:
 * `hrm`: `hg remove`
 * `hre`: `hg revert`
 * `rm`: `rm`
+* `vim`: `vim`
 
 ## License
 

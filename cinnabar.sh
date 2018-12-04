@@ -112,6 +112,10 @@ function cin_do_rm {
     cin_do_cmd "rm" "$@"
 }
 
+function cin_do_vim {
+    cin_do_cmd "vim" "$@"
+}
+
 alias hca="cin_do_amend"
 alias hcm="hg commit -m"
 alias hc="cin_do_commit"
@@ -123,3 +127,4 @@ alias hrm="cin_do_remove"
 alias hre="cin_do_revert"
 alias hs="cin_do_status"
 alias rm="cin_do_rm"
+alias vim="cin_do_vim"
