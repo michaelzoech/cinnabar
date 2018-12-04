@@ -17,7 +17,7 @@ function cin_eval_variable {
 }
 
 function cin_build_file_list {
-    local paths=()
+    local args=()
     local range_regex='^([0-9]+)-([0-9]+)$'
     local number_regex='^[0-9]+$'
     local arg
@@ -28,18 +28,18 @@ function cin_build_file_list {
             while [ $start -le $end ] ; do
                 local envvar=CINFILE$start
                 local path=$(cin_eval_variable "$envvar")
-                paths+=($path)
+                args+=($path)
                 start=$((start+1))
             done
         elif [[ $arg =~ $number_regex ]] ; then
             local envvar=CINFILE$arg
             local path=$(cin_eval_variable $envvar)
-            paths+=($path)
+            args+=($path)
         else
-            paths+=($arg)
+            args+=($arg)
         fi
     done
-    echo "${paths[*]}"
+    echo "${args[*]}"
 }
 
 # Unsets the CINFILE$number environment variables, starting with the
