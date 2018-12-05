@@ -26,6 +26,7 @@ The following aliases support numbered files and numbered ranges:
 
 * `ha`: `hg add`
 * `hc`: `hg commit`
+* `hca`: `hg commit --amend`
 * `hd`: `hg diff`
 * `hl`: `hg log`
 * `hrm`: `hg remove`
