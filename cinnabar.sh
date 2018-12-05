@@ -4,11 +4,19 @@ else
     CINNABAR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 fi
 
+function cin_is_zsh {
+    if [ "$ZSH_NAME" != "" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # Evaluates the environment variable with the name in parameter 1
 function cin_eval_variable {
     local envvar=$1
     local value
-    if [ "$ZSH_NAME" != "" ]; then
+    if cin_is_zsh; then
         value=${(P)envvar}
     else
         value=${!envvar}
@@ -23,12 +31,19 @@ function cin_build_file_list {
     local arg
     for arg in "$@" ; do
         if [[ $arg =~ $range_regex ]] ; then
-            local start=${BASH_REMATCH[1]}
-            local end=${BASH_REMATCH[2]}
+            local start
+            local end
+            if cin_is_zsh;  then
+                start=$match[1]
+                end=$match[2]
+            else
+                start=${BASH_REMATCH[1]}
+                end=${BASH_REMATCH[2]}
+            fi
             while [ $start -le $end ] ; do
                 local envvar=CINFILE$start
-                local path=$(cin_eval_variable "$envvar")
-                args+=($path)
+                local filepath=$(cin_eval_variable "$envvar")
+                args+=($filepath)
                 start=$((start+1))
             done
         elif [[ $arg =~ $number_regex ]] ; then
