@@ -18,9 +18,27 @@ Whenever you view your Mercurial repo status, each path gets assigned to an envi
 Use `hs` to view the enhanced `hg status` output.
 The files are numbered from 1,2,... and stored in the environment variables `CINFILE1`,`CINFILE2`,... .
 
+    $ hs
+
+      M [1] path/to/foo.txt
+      A [2] path/to/bar.txt
+      ? [3] even/more/paths/baz.txt
+      ? [4] even/more/paths/buz.txt
+
 The numbers can be used with shortcuts such as `ha` (`hg add`).
 Only the number has to be specified instead of typing the full file path.
 Number ranges can be used to reference a range of files.
+E.g.:
+
+    $ hc 2 3 4
+
+or
+
+    $ hc 2-4
+
+will expand to
+
+    $ hg commit path/to/foo.txt even/more/paths/baz.txt even/more/paths/buz.txt
 
 The following aliases support numbered files and numbered ranges:
 
