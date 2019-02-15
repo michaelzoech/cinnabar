@@ -54,7 +54,7 @@ The following aliases support numbered files and numbered ranges:
 
 ## License
 
-    Copyright (c) 2018 Michael Zoech
+    Copyright (c) 2019 Michael Zoech
 
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
