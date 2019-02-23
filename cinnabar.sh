@@ -48,8 +48,8 @@ function cin_build_file_list {
             done
         elif [[ $arg =~ $number_regex ]] ; then
             local envvar=CINFILE$arg
-            local path=$(cin_eval_variable $envvar)
-            args+=($path)
+            local filepath=$(cin_eval_variable $envvar)
+            args+=($filepath)
         else
             args+=($arg)
         fi
