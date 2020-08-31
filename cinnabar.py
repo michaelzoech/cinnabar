@@ -41,14 +41,14 @@ def hg_status():
     working_dir = os.getcwd()
     for line in lines:
         line = line.rstrip()
-        if line is "":
+        if line == "":
             continue
         counter += 1
         path = line[2:].strip()
         mod = line[:1]
         absolute_path = "{}/{}".format(working_dir, path)
         paths.append(absolute_path)
-        if os.environ.get('COLOR') is "0":
+        if os.environ.get('COLOR') == "0":
             print("{} [{}] {}".format(mod, counter, path))
         else:
             print("{}{} [{}] {}{}".format(
