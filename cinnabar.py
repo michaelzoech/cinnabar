@@ -32,9 +32,9 @@ colors = {
 }
 
 
-def hg_status():
+def hg_status(args):
     process = subprocess.run(
-        ["hg", "--color", "never", "status"], check=True, stdout=subprocess.PIPE)
+        ["hg", "--color", "never", "status"] + args, check=True, stdout=subprocess.PIPE)
     lines = process.stdout.decode().split("\n")
     paths = []
     counter = 0
@@ -57,7 +57,11 @@ def hg_status():
 
 
 def main(argv):
-    hg_status()
+    match argv[1]:
+        case "status":
+            hg_status(argv[2:])
+        case _:
+            sys.exit("Unknown command")
 
 
 if __name__ == '__main__':

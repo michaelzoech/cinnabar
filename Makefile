@@ -2,5 +2,5 @@
 .PHONY: test
 
 test:
-	python -m unittest test/*.py
+	python3 -m unittest test/*.py
 

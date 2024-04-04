@@ -75,7 +75,7 @@ function cin_reset_leftover_env_vars {
 # Prints the status of files in th repository and creates the
 # CINFILE$number environment variables to refer to those files.
 function cin_do_status {
-    local status_output=$(python3 $CINNABAR_DIR/cinnabar.py status)
+    local status_output=$(python3 $CINNABAR_DIR/cinnabar.py status "$@")
     local paths="${status_output##*$'\n'}"
     local print_output=$(echo "$status_output" | head -n -1)
     local counter=0
@@ -141,5 +141,6 @@ alias hll="hg ll"
 alias hrm="cin_do_remove"
 alias hre="cin_do_revert"
 alias hs="cin_do_status"
+alias hsp="cin_do_status --rev .^"
 alias rm="cin_do_rm"
 alias vim="cin_do_vim"
